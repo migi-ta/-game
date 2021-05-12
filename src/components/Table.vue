@@ -17,6 +17,9 @@
                 <td class="co1" @click.once="giveSymbol(8,$event)" id="btn9"></td>
             </tr>
         </table>
+        <p v-if="this.firster.gameresult">The winner of this game is {{this.firster.name}} .</p>
+        <p v-if="this.seconder.gameresult">The winner of this game is {{this.seconder.name}} .</p>
+        <p v-if="this.gameover">The game is draw</p>
     </div>
 </template>
 
@@ -27,26 +30,17 @@ export default {
             firster: {
                 name: "firster",
                 value: "○",
-                markplace: "○です"
+                gameresult:false
             },
             seconder: {
                 name: "seconder",
                 value: "×",
-                markplace: "×です"
+                gameresult:false
             },
-            states: [
-                // [0,1,2],
-                // [0,4,8],
-                // [0,3,6],
-                // [3,4,5],
-                // [6,7,8],
-                // [1,4,7],
-                // [2,5,8],
-                // [2,4,6]
-                0,1,2,3,4,5,6,7,8,
-            ],
+            states: [0,1,2,3,4,5,6,7,8],
             count: 0,
-            playerCount:0
+            gameover:false,
+            btnMove:false,
         }
     },
     methods: {
@@ -54,7 +48,6 @@ export default {
             let id = event.target.id;
             let selectBtn = document.getElementById(id);
             this.count++;
-            this.playerCount++; 
             if(this.count % 2 != 0){
                 selectBtn.innerHTML = this.firster.value;
                 this.states[number] = this.firster.value;
@@ -62,22 +55,37 @@ export default {
             } else {   
                 selectBtn.innerHTML = this.seconder.value;
                 this.states[number] = this.seconder.value;
+                this.judgement();
             }
-            
         },
         judgement: function(){
             if(this.states[0] == this.states[1] && this.states[1] == this.states[2]){
                 this.whichWin();
+            } else if(this.states[0] == this.states[4] && this.states[4] == this.states[8]) {
+                this.whichWin();
+            } else if(this.states[0] == this.states[3] && this.states[3] == this.states[6]){
+                this.whichWin();
+            } else if(this.states[1] == this.states[4] && this.states[4] == this.states[7]){
+                this.whichWin();
+            } else if(this.states[2] == this.states[5] && this.states[5] == this.states[8]){
+                this.whichWin();
+            } else if(this.states[3] == this.states[4] && this.states[4] == this.states[5]){
+                this.whichWin();
+            } else if(this.states[6] == this.states[7] && this.states[7] == this.states[8]){
+                this.whichWin();
+            } else if(this.states[2] == this.states[4] && this.states[4] == this.states[6]){
+                this.whichWin();
+            } else if(this.count == 9){
+                this.gameover = true
             }
         },
         whichWin: function(){
-            if(this.playerCount / 2 != 0){
-                alert(this.firster.name);
+            if(this.count % 2 != 0){
+                this.firster.gameresult = true
             } else {
-                alert(this.seconder.name)
+                this.seconder.gameresult = true
             }
-        }
-
+        },
     }
 }
 </script>
