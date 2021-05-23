@@ -2,21 +2,18 @@
   <div id="app1">
     <Title></Title>
     <Table id="table1"></Table>
-    <Button></Button>
   </div>
 </template>
 
 <script>
 import Title from './components/Title.vue'
 import Table from './components/Table.vue'
-import Button from './components/Button.vue'
 
 export default {
   name: 'App',
   components: {
     Title: Title,
     Table:Table,
-    Button: Button
   }
 }
 
